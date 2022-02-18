@@ -6,7 +6,7 @@
     <div v-if="parseRewardType(farmReward) === 'variable'">
       <div class="mb-2 w-full bg-black text-white">Variable reward:</div>
       <div class="mb-2">
-        Last recorded accrued reward per gem:
+        Last recorded accrued reward per Cookie:
         {{
           numeral(
             reward.variableRate.lastRecordedAccruedRewardPerRarityPoint.n / 10 ** 15
