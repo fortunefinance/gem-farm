@@ -23,7 +23,7 @@
       <RewardDisplay
         :key="farmAcc.rewardA"
         :reward="farmAcc.rewardA"
-        title="Reward A"
+        title="Reward $frtn"
       />
     </div>
     <!--reward B-->
@@ -31,7 +31,7 @@
       <RewardDisplay
         :key="farmAcc.rewardB"
         :reward="farmAcc.rewardB"
-        title="Reward B"
+        title="Reward DUMMY"
       />
     </div>
   </div>

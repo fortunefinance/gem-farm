@@ -23,7 +23,7 @@
           :key="farmerAcc.rewardA"
           :farmReward="farmAcc.rewardA"
           :reward="farmerAcc.rewardA"
-          title="Reward A"
+          title="Reward $FRTN"
         />
       </div>
       <div class="flex-1">
@@ -31,7 +31,7 @@
           :key="farmerAcc.rewardB"
           :farmReward="farmAcc.rewardB"
           :reward="farmerAcc.rewardB"
-          title="Reward B"
+          title="Reward Dummy"
         />
       </div>
     </div>
