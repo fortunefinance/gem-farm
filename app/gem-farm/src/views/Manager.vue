@@ -1,6 +1,6 @@
 <template>
   <ConfigPane />
-  <div v-if="!wallet" class="text-center">Pls connect (burner) wallet</div>
+  <div v-if="!wallet" class="text-center">Pls connect wallet</div>
   <div v-else>
     <div class="flex mb-10 w-full justify-center">
       <button
