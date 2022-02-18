@@ -267,7 +267,7 @@ export default defineComponent({
 .neon-container {
   position: relative;
   padding: 1.5rem 2rem;
-  border-width: 0px;
+  border-width: 2px;
   background: #323159;
 opacity: 0.75;
 box-shadow: 0px 4px 68px rgba(255, 69, 203, 0.44);
