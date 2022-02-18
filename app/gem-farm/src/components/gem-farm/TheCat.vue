@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-center fork">
     <div v-if="showText" class="nes-balloon from-right balloon">
-      <p>Fork me on Github</p>
+      <p>Finally cookie staking!</p>
     </div>
     <a href="https://github.com/gemworks/gem-farm" target="_blank" class="cat">
       <i
@@ -36,6 +36,7 @@ export default defineComponent({
 
 .balloon {
   width: 200px;
+  bottom: 100px;
   align-self: flex-start;
 }
 
