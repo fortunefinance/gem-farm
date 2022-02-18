@@ -15,7 +15,7 @@
   <!--participating farmers/gems-->
   <div class="mb-2">Initialized farmer count: {{ farmAcc.farmerCount }}</div>
   <div class="mb-2">Staked farmer count: {{ farmAcc.stakedFarmerCount }}</div>
-  <div class="mb-5">Cookies staked: {{ farmAcc.gemsStaked }}</div>
+  <div class="mb-5">Gems staked: {{ farmAcc.gemsStaked }}</div>
 
   <div class="flex">
     <!--reward A-->
@@ -23,7 +23,7 @@
       <RewardDisplay
         :key="farmAcc.rewardA"
         :reward="farmAcc.rewardA"
-        title="Reward $frtn"
+        title="Reward A"
       />
     </div>
     <!--reward B-->
@@ -31,7 +31,7 @@
       <RewardDisplay
         :key="farmAcc.rewardB"
         :reward="farmAcc.rewardB"
-        title="Reward DUMMY"
+        title="Reward B"
       />
     </div>
   </div>

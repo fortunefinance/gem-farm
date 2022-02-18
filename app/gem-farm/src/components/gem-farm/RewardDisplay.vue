@@ -1,5 +1,5 @@
 <template>
-  <div class="nes-container with-title">
+  <div class="neon-container with-title">
     <p class="title">{{ title }}</p>
     <div class="mb-2">
       Type:

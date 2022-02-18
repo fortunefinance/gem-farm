@@ -1,5 +1,5 @@
 <template>
-  <div class="nes-container with-title">
+  <div class="neon-container with-title">
     <p class="title">Treasury Payout</p>
     <div class="mb-5">Treasury balance: {{ balance }} lamports</div>
 

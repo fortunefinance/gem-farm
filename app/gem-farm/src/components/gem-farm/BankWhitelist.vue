@@ -1,5 +1,5 @@
 <template>
-  <div class="nes-container with-title">
+  <div class="neon-container with-title">
     <p class="title">Whitelist Mints / Creators</p>
     <form @submit.prevent="updateWhitelist">
       <label>

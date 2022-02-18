@@ -1,37 +1,36 @@
 <template>
-  <div class="relative h-full min-h-screen">
-    <TheNavBar />
+  <div class="relative  h-full min-h-screen bgimg">
+    <!-- <TheNavBar /> -->
     <div class="pt-10 px-10 flex justify-center align-middle">
-      <p class="text-4xl pt-3 px-1 mt-1 text-black underline">$FRTN</p>
-      <img :width="50" :height="50" src="./assets/400x600.gif" />
-      <p class="text-4xl pt-3 px-2 mt-1 text-black underline">FARM</p>
+      <img :width="300" :height="300" src="./assets/logo.png" />
     </div>
-    <div class="italic mt-5 text-center">Staking cookies since 2022</div>
-
     <div class="p-10">
-      <router-view />
+      <router-view class="max-w-xl" />
     </div>
 
     <div class="pt-10"></div>
-    <TheCat />
-    <TheFooter />
+    <!-- <TheFooter /> -->
   </div>
 </template>
 
 <script>
 import TheNavBar from '@/components/TheNavBar';
 import TheFooter from '@/components/gem-farm/TheFooter';
-import TheCat from '@/components/gem-farm/TheCat';
 export default {
-  components: { TheCat, TheFooter, TheNavBar },
+  components: { TheFooter, TheNavBar },
 };
 </script>
 
 <style>
 * {
   font-family: 'Press Start 2P', monospace;
+  color: white;
 }
 input[type='radio']:checked + span {
   @apply text-black;
+}
+.bgimg {
+  background-image: url(https://lotto.fortune.finance/img/hero-bricks.80b4df40.png);
+  background-size: cover
 }
 </style>

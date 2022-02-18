@@ -1,9 +1,10 @@
 <template>
-  <div class="nes-container with-title">
+  <div class="neon-container with-title">
     <p class="title">Your Staking Account</p>
+    <br />
     <div class="mb-2">
       state:
-      <p class="inline-block bg-yellow-200">
+      <p class="inline-block bg-yellow-800">
         {{ parseFarmerState(farmerAcc) }}
       </p>
     </div>
@@ -23,17 +24,17 @@
           :key="farmerAcc.rewardA"
           :farmReward="farmAcc.rewardA"
           :reward="farmerAcc.rewardA"
-          title="Reward $FRTN"
+          title="Rewards"
         />
       </div>
-      <div class="flex-1">
+      <!-- <div class="flex-1">
         <FarmerRewardDisplay
           :key="farmerAcc.rewardB"
           :farmReward="farmAcc.rewardB"
           :reward="farmerAcc.rewardB"
-          title="Reward Dummy"
+          title="Reward B"
         />
-      </div>
+      </div> -->
     </div>
     <button class="nes-btn is-primary mb-5" @click="refreshFarmer">
       Refresh account
@@ -98,4 +99,7 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+
+
+</style>

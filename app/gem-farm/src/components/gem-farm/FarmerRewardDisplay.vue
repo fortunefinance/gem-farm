@@ -1,12 +1,12 @@
 <template>
-  <div class="nes-container with-title">
-    <p class="title">{{ title }}</p>
+  <div class="neon-container with-title">
+    <!-- <p class="title">{{ title }}</p> -->
     <div class="mb-2">Accrued reward: {{ reward.accruedReward }}</div>
     <div class="mb-2">Paid out reward: {{ reward.paidOutReward }}</div>
     <div v-if="parseRewardType(farmReward) === 'variable'">
       <div class="mb-2 w-full bg-black text-white">Variable reward:</div>
       <div class="mb-2">
-        Last recorded accrued reward per Cookie:
+        Last recorded accrued $FRTN per cookie:
         {{
           numeral(
             reward.variableRate.lastRecordedAccruedRewardPerRarityPoint.n / 10 ** 15
@@ -66,4 +66,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.title{
+  color: black
+}
+</style>

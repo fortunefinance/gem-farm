@@ -3,13 +3,13 @@
   <div v-if="!wallet" class="text-center">Pls connect (burner) wallet</div>
   <div v-else>
     <!--farm address-->
-    <div class="nes-container with-title mb-10">
+    <!-- <div class="neon-container with-title mb-10">
       <p class="title">Connect to a Farm</p>
       <div class="nes-field mb-5">
-        <label for="farm">Farm address: HdA8vq6B2TTWhdspta1T9uDc5y32MJbQoo1x7KxPVRrv</label>
+        <label for="farm">Farm address:</label>
         <input id="farm" class="nes-input" v-model="farm" />
       </div>
-    </div>
+    </div> -->
 
     <div v-if="farmerAcc">
       <FarmerDisplay
@@ -32,7 +32,7 @@
           class="nes-btn is-primary mr-5"
           @click="addGems"
         >
-          Add Gems (resets staking)
+          Add Cookies (resets staking)
         </button>
         <button
           v-if="farmerState === 'unstaked'"
@@ -56,10 +56,7 @@
           End cooldown
         </button>
         <button class="nes-btn is-warning" @click="claim">
-          Claim {{ availableA }} $frtn
-        </button>
-        <button class="nes-btn is-warning" @click="claim">
-          Claim {{ availableB }} $Dummy
+          Claim {{ availableA }} $FRTN
         </button>
       </Vault>
     </div>
@@ -105,7 +102,7 @@ export default defineComponent({
     });
 
     // --------------------------------------- farmer details
-    const farm = ref<string>();
+    const farm = ref<string>('HdA8vq6B2TTWhdspta1T9uDc5y32MJbQoo1x7KxPVRrv');
     const farmAcc = ref<any>();
 
     const farmerIdentity = ref<string>();
@@ -266,4 +263,14 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style>
+.neon-container {
+  position: relative;
+  padding: 1.5rem 2rem;
+  border-width: 0px;
+  background: #323159;
+opacity: 0.75;
+box-shadow: 0px 4px 68px rgba(255, 69, 203, 0.44);
+border-radius: 24px;
+}
+</style>

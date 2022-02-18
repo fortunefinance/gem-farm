@@ -1,6 +1,6 @@
 <template>
-  <div class="nes-container with-title">
-    <p class="title">{{ title }}</p>
+  <div class="neon-container with-title">
+    <p class="title text-color-black">{{ title }}</p>
     <slot />
     <div class="flex flex-wrap">
       <NFTCard
@@ -35,4 +35,5 @@ export default defineComponent({
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

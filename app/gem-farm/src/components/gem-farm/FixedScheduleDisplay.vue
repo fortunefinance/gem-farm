@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div class="mb-2">Base rate: {{ schedule.baseRate }} tokens/gem/s</div>
+    <div class="mb-2">Base rate: {{ schedule.baseRate }} $FRTN/Cookie/s</div>
     <div class="mb-2" v-if="schedule.tier1">
       T1 reward rate:
-      {{ schedule.tier1.rewardRate }} tokens/gem/s
+      {{ schedule.tier1.rewardRate }} $FRTN/Cookie/s
     </div>
     <div class="mb-2" v-if="schedule.tier1">
       T1 required tenure:
@@ -12,7 +12,7 @@
     <!--tier 2-->
     <div class="mb-2" v-if="schedule.tier2">
       T2 reward rate:
-      {{ schedule.tier2.rewardRate }} tokens/gem/s
+      {{ schedule.tier2.rewardRate }} $FRTN/Cookie/s
     </div>
     <div class="mb-2" v-if="schedule.tier2">
       T2 required tenure:
@@ -21,7 +21,7 @@
     <!--tier 3-->
     <div class="mb-2" v-if="schedule.tier3">
       T3 reward rate:
-      {{ schedule.tier3.rewardRate }} tokens/gem/s
+      {{ schedule.tier3.rewardRate }} $FRTN/Cookie/s
     </div>
     <div class="mb-2" v-if="schedule.tier3">
       T3 required tenure:

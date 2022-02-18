@@ -1,7 +1,6 @@
 <template>
   <div class="footer pt-1 pb-1">
-    <p class="px-3">Stake cookies earn $frtn</p>
-    <i class="nes-icon trophy"></i>
+    <p class="px-3">Fortune.Farm</p>
   </div>
 </template>
 
