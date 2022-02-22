@@ -478,6 +478,10 @@
         {
           "name": "bumpFarmer",
           "type": "u8"
+        },
+        {
+          "name": "skipRewards",
+          "type": "bool"
         }
       ]
     },
