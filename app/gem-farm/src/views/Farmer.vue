@@ -55,9 +55,6 @@
         >
           End cooldown
         </button>
-        <button class="nes-btn is-warning" @click="claim">
-          Claim 0 $FRTN
-        </button>
       </Vault>
     </div>
     <div v-else>
