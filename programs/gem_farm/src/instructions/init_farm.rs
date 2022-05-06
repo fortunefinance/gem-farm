@@ -2,24 +2,24 @@ use anchor_lang::prelude::*;
 use anchor_lang::solana_program::{program::invoke, system_instruction};
 use anchor_spl::token::{Mint, Token, TokenAccount};
 use gem_bank::{self, cpi::accounts::InitBank, program::GemBank};
+use gem_common::errors::ErrorCode;
 use std::str::FromStr;
 
 use crate::state::*;
 
 pub const FEE_WALLET: &str = "2xhBxVVuXkdq2MRKerE9mr2s1szfHSedy21MVqf8gPoM"; //5th
-const FEE_LAMPORTS: u64 = 1_500_000_000; // 1.5 SOL per farm
+const FEE_LAMPORTS: u64 = 2_500_000_000; // 2.5 SOL per farm
 
 #[derive(Accounts)]
-#[instruction(bump_auth: u8, bump_treasury: u8, bump_pot_a: u8, bump_pot_b: u8)]
+#[instruction(bump_auth: u8, bump_treasury: u8)]
 pub struct InitFarm<'info> {
     // farm
     #[account(init, payer = payer, space = 8 + std::mem::size_of::<Farm>())]
     pub farm: Box<Account<'info, Farm>>,
     pub farm_manager: Signer<'info>,
+    /// CHECK:
     #[account(mut, seeds = [farm.key().as_ref()], bump = bump_auth)]
     pub farm_authority: AccountInfo<'info>,
-    #[account(seeds = [b"treasury".as_ref(), farm.key().as_ref()], bump = bump_treasury)]
-    pub farm_treasury: AccountInfo<'info>,
 
     // reward a
     #[account(init, seeds = [
@@ -27,7 +27,7 @@ pub struct InitFarm<'info> {
             farm.key().as_ref(),
             reward_a_mint.key().as_ref(),
         ],
-        bump = bump_pot_a,
+        bump,
         token::mint = reward_a_mint,
         token::authority = farm_authority,
         payer = payer)]
@@ -40,7 +40,7 @@ pub struct InitFarm<'info> {
             farm.key().as_ref(),
             reward_b_mint.key().as_ref(),
         ],
-        bump = bump_pot_b,
+        bump,
         token::mint = reward_b_mint,
         token::authority = farm_authority,
         payer = payer)]
@@ -55,6 +55,7 @@ pub struct InitFarm<'info> {
     // misc
     #[account(mut)]
     pub payer: Signer<'info>,
+    /// CHECK:
     #[account(mut, address = Pubkey::from_str(FEE_WALLET).unwrap())]
     pub fee_acc: AccountInfo<'info>,
     pub rent: Sysvar<'info, Rent>,
@@ -78,7 +79,7 @@ impl<'info> InitFarm<'info> {
         )
     }
 
-    fn transfer_fee(&self) -> ProgramResult {
+    fn transfer_fee(&self) -> Result<()> {
         invoke(
             &system_instruction::transfer(self.payer.key, self.fee_acc.key, FEE_LAMPORTS),
             &[
@@ -87,6 +88,7 @@ impl<'info> InitFarm<'info> {
                 self.system_program.to_account_info(),
             ],
         )
+        .map_err(Into::into)
     }
 }
 
@@ -96,13 +98,24 @@ pub fn handler(
     reward_type_a: RewardType,
     reward_type_b: RewardType,
     farm_config: FarmConfig,
-) -> ProgramResult {
+    max_counts: Option<MaxCounts>,
+    farm_treasury: Pubkey,
+) -> Result<()> {
+    //manually verify treasury
+    let (pk, _bump) = Pubkey::find_program_address(
+        &[b"treasury".as_ref(), ctx.accounts.farm.key().as_ref()],
+        ctx.program_id,
+    );
+    if farm_treasury.key() != pk {
+        return Err(error!(ErrorCode::InvalidParameter));
+    }
+
     //record new farm details
     let farm = &mut ctx.accounts.farm;
 
     farm.version = LATEST_FARM_VERSION;
     farm.farm_manager = ctx.accounts.farm_manager.key();
-    farm.farm_treasury = ctx.accounts.farm_treasury.key();
+    farm.farm_treasury = farm_treasury;
     farm.farm_authority = ctx.accounts.farm_authority.key();
     farm.farm_authority_seed = farm.key();
     farm.farm_authority_bump_seed = [bump_auth];
@@ -118,6 +131,10 @@ pub fn handler(
     farm.reward_b.reward_pot = ctx.accounts.reward_b_pot.key();
     farm.reward_b.reward_type = reward_type_b;
     farm.reward_b.fixed_rate.schedule = FixedRateSchedule::default(); //denom to 1
+
+    if let Some(max_counts) = max_counts {
+        farm.max_counts = max_counts;
+    }
 
     //do a cpi call to start a new bank
     gem_bank::cpi::init_bank(

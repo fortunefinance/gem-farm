@@ -9,7 +9,7 @@ use anchor_lang::prelude::*;
 /// Unfortunately I wasn't able to get that working, last leg is failing.
 ///
 /// todo to revisit in v1
-#[error]
+#[error_code]
 pub enum ErrorCode {
     // --------------------------------------- generic (0 - 19)
     #[msg("failed to perform some math operation safely")]
@@ -27,7 +27,8 @@ pub enum ErrorCode {
     #[msg("two amounts that are supposed to be equal are not")]
     AmountMismatch,
 
-    Reserved5,
+    #[msg("account discriminator doesn't match")]
+    AccountDiscriminatorMismatch,
     Reserved6,
     Reserved7,
     Reserved8,
@@ -97,9 +98,15 @@ pub enum ErrorCode {
     #[msg("wrong metadata account, gem mint doesn't match")]
     WrongMetadata,
 
-    Reserved48,
-    Reserved49,
-    Reserved50,
+    #[msg("max farmer count exceeded")]
+    TooManyFarmersStaked, //0x17a0
+
+    #[msg("max gems exceeded")]
+    TooManyGemsStaked, //0x17a1
+
+    #[msg("max rarity points exceeded")]
+    TooManyRarityPointsStaked, //0x17a2
+
     Reserved51,
     Reserved52,
     Reserved53,

@@ -9,7 +9,8 @@
         Last recorded accrued $FRTN per cookie:
         {{
           numeral(
-            reward.variableRate.lastRecordedAccruedRewardPerRarityPoint.n / 10 ** 15
+            reward.variableRate.lastRecordedAccruedRewardPerRarityPoint.n /
+              10 ** 3
           ).format('0,0.0')
         }}
       </div>

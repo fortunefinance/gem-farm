@@ -21,11 +21,6 @@
           "isSigner": false
         },
         {
-          "name": "farmTreasury",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "rewardAPot",
           "isMut": true,
           "isSigner": false
@@ -91,14 +86,6 @@
           "type": "u8"
         },
         {
-          "name": "bumpPotA",
-          "type": "u8"
-        },
-        {
-          "name": "bumpPotB",
-          "type": "u8"
-        },
-        {
           "name": "rewardTypeA",
           "type": {
             "defined": "RewardType"
@@ -115,6 +102,18 @@
           "type": {
             "defined": "FarmConfig"
           }
+        },
+        {
+          "name": "maxCounts",
+          "type": {
+            "option": {
+              "defined": "MaxCounts"
+            }
+          }
+        },
+        {
+          "name": "farmTreasury",
+          "type": "publicKey"
         }
       ]
     },
@@ -145,6 +144,14 @@
           "name": "manager",
           "type": {
             "option": "publicKey"
+          }
+        },
+        {
+          "name": "maxCounts",
+          "type": {
+            "option": {
+              "defined": "MaxCounts"
+            }
           }
         }
       ]
@@ -245,10 +252,6 @@
       "args": [
         {
           "name": "bumpAuth",
-          "type": "u8"
-        },
-        {
-          "name": "bumpWl",
           "type": "u8"
         },
         {
@@ -356,16 +359,7 @@
           "isSigner": false
         }
       ],
-      "args": [
-        {
-          "name": "bumpFarmer",
-          "type": "u8"
-        },
-        {
-          "name": "bumpVault",
-          "type": "u8"
-        }
-      ]
+      "args": []
     },
     {
       "name": "stake",
@@ -402,6 +396,16 @@
         },
         {
           "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
           "isMut": false,
           "isSigner": false
         }
@@ -458,6 +462,11 @@
         {
           "name": "gemBank",
           "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -660,6 +669,11 @@
           "name": "gemBank",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
         }
       ],
       "args": [
@@ -669,14 +683,6 @@
         },
         {
           "name": "bumpVaultAuth",
-          "type": "u8"
-        },
-        {
-          "name": "bumpGemBox",
-          "type": "u8"
-        },
-        {
-          "name": "bumpGdr",
           "type": "u8"
         },
         {
@@ -774,12 +780,7 @@
           "isSigner": false
         }
       ],
-      "args": [
-        {
-          "name": "bump",
-          "type": "u8"
-        }
-      ]
+      "args": []
     },
     {
       "name": "deauthorizeFunder",
@@ -1056,6 +1057,69 @@
       }
     },
     {
+      "name": "Farmer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "farm",
+            "type": "publicKey"
+          },
+          {
+            "name": "identity",
+            "type": "publicKey"
+          },
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "FarmerState"
+            }
+          },
+          {
+            "name": "gemsStaked",
+            "type": "u64"
+          },
+          {
+            "name": "rarityPointsStaked",
+            "type": "u64"
+          },
+          {
+            "name": "minStakingEndsTs",
+            "type": "u64"
+          },
+          {
+            "name": "cooldownEndsTs",
+            "type": "u64"
+          },
+          {
+            "name": "rewardA",
+            "type": {
+              "defined": "FarmerReward"
+            }
+          },
+          {
+            "name": "rewardB",
+            "type": {
+              "defined": "FarmerReward"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "Farm",
       "type": {
         "kind": "struct",
@@ -1132,66 +1196,9 @@
             }
           },
           {
-            "name": "reserved",
+            "name": "maxCounts",
             "type": {
-              "array": [
-                "u8",
-                64
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "Farmer",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "farm",
-            "type": "publicKey"
-          },
-          {
-            "name": "identity",
-            "type": "publicKey"
-          },
-          {
-            "name": "vault",
-            "type": "publicKey"
-          },
-          {
-            "name": "state",
-            "type": {
-              "defined": "FarmerState"
-            }
-          },
-          {
-            "name": "gemsStaked",
-            "type": "u64"
-          },
-          {
-            "name": "rarityPointsStaked",
-            "type": "u64"
-          },
-          {
-            "name": "minStakingEndsTs",
-            "type": "u64"
-          },
-          {
-            "name": "cooldownEndsTs",
-            "type": "u64"
-          },
-          {
-            "name": "rewardA",
-            "type": {
-              "defined": "FarmerReward"
-            }
-          },
-          {
-            "name": "rewardB",
-            "type": {
-              "defined": "FarmerReward"
+              "defined": "MaxCounts"
             }
           },
           {
@@ -1200,6 +1207,24 @@
               "array": [
                 "u8",
                 32
+              ]
+            }
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "reserved3",
+            "type": {
+              "array": [
+                "u8",
+                4
               ]
             }
           }
@@ -1209,116 +1234,29 @@
   ],
   "types": [
     {
-      "name": "FarmConfig",
+      "name": "RarityConfig",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "minStakingPeriodSec",
-            "type": "u64"
-          },
-          {
-            "name": "cooldownPeriodSec",
-            "type": "u64"
-          },
-          {
-            "name": "unstakingFeeLamp",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "FundsTracker",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "totalFunded",
-            "type": "u64"
-          },
-          {
-            "name": "totalRefunded",
-            "type": "u64"
-          },
-          {
-            "name": "totalAccruedToStakers",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "TimeTracker",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "durationSec",
-            "type": "u64"
-          },
-          {
-            "name": "rewardEndTs",
-            "type": "u64"
-          },
-          {
-            "name": "lockEndTs",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "FarmReward",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "rewardMint",
+            "name": "mint",
             "type": "publicKey"
           },
           {
-            "name": "rewardPot",
-            "type": "publicKey"
-          },
+            "name": "rarityPoints",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Number128",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "rewardType",
-            "type": {
-              "defined": "RewardType"
-            }
-          },
-          {
-            "name": "fixedRate",
-            "type": {
-              "defined": "FixedRateReward"
-            }
-          },
-          {
-            "name": "variableRate",
-            "type": {
-              "defined": "VariableRateReward"
-            }
-          },
-          {
-            "name": "funds",
-            "type": {
-              "defined": "FundsTracker"
-            }
-          },
-          {
-            "name": "times",
-            "type": {
-              "defined": "TimeTracker"
-            }
-          },
-          {
-            "name": "reserved",
-            "type": {
-              "array": [
-                "u8",
-                32
-              ]
-            }
+            "name": "n",
+            "type": "u128"
           }
         ]
       }
@@ -1416,6 +1354,141 @@
               "array": [
                 "u8",
                 16
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "FarmConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "minStakingPeriodSec",
+            "type": "u64"
+          },
+          {
+            "name": "cooldownPeriodSec",
+            "type": "u64"
+          },
+          {
+            "name": "unstakingFeeLamp",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MaxCounts",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maxFarmers",
+            "type": "u32"
+          },
+          {
+            "name": "maxGems",
+            "type": "u32"
+          },
+          {
+            "name": "maxRarityPoints",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FundsTracker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalFunded",
+            "type": "u64"
+          },
+          {
+            "name": "totalRefunded",
+            "type": "u64"
+          },
+          {
+            "name": "totalAccruedToStakers",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TimeTracker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "durationSec",
+            "type": "u64"
+          },
+          {
+            "name": "rewardEndTs",
+            "type": "u64"
+          },
+          {
+            "name": "lockEndTs",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FarmReward",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardPot",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardType",
+            "type": {
+              "defined": "RewardType"
+            }
+          },
+          {
+            "name": "fixedRate",
+            "type": {
+              "defined": "FixedRateReward"
+            }
+          },
+          {
+            "name": "variableRate",
+            "type": {
+              "defined": "VariableRateReward"
+            }
+          },
+          {
+            "name": "funds",
+            "type": {
+              "defined": "FundsTracker"
+            }
+          },
+          {
+            "name": "times",
+            "type": {
+              "defined": "TimeTracker"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
               ]
             }
           }
@@ -1528,34 +1601,6 @@
       }
     },
     {
-      "name": "RarityConfig",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "mint",
-            "type": "publicKey"
-          },
-          {
-            "name": "rarityPoints",
-            "type": "u16"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Number128",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "n",
-            "type": "u128"
-          }
-        ]
-      }
-    },
-    {
       "name": "VariableRateConfig",
       "type": {
         "kind": "struct",
@@ -1605,20 +1650,6 @@
       }
     },
     {
-      "name": "RewardType",
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "Variable"
-          },
-          {
-            "name": "Fixed"
-          }
-        ]
-      }
-    },
-    {
       "name": "FarmerState",
       "type": {
         "kind": "enum",
@@ -1631,6 +1662,20 @@
           },
           {
             "name": "PendingCooldown"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Variable"
+          },
+          {
+            "name": "Fixed"
           }
         ]
       }
