@@ -1,10 +1,11 @@
 use anchor_lang::prelude::*;
+use anchor_lang::Discriminator;
+use arrayref::array_ref;
 use gem_common::*;
 
 use crate::state::*;
 
 #[derive(Accounts)]
-#[instruction(bump: u8)]
 pub struct AuthorizeFunder<'info> {
     // farm
     #[account(mut, has_one = farm_manager)]
@@ -13,13 +14,14 @@ pub struct AuthorizeFunder<'info> {
     pub farm_manager: Signer<'info>,
 
     // funder
+    /// CHECK:
     pub funder_to_authorize: AccountInfo<'info>,
     #[account(init_if_needed, seeds = [
             b"authorization".as_ref(),
             farm.key().as_ref(),
             funder_to_authorize.key().as_ref(),
         ],
-        bump = bump,
+        bump,
         payer = farm_manager,
         space = 8 + std::mem::size_of::<AuthorizationProof>())]
     authorization_proof: Box<Account<'info, AuthorizationProof>>,
@@ -28,7 +30,18 @@ pub struct AuthorizeFunder<'info> {
     system_program: Program<'info, System>,
 }
 
-pub fn handler(ctx: Context<AuthorizeFunder>) -> ProgramResult {
+pub fn handler(ctx: Context<AuthorizeFunder>) -> Result<()> {
+    // fix missing discriminator check
+    {
+        let acct = ctx.accounts.authorization_proof.to_account_info();
+        let data: &[u8] = &acct.try_borrow_data()?;
+        let disc_bytes = array_ref![data, 0, 8];
+        if disc_bytes != &AuthorizationProof::discriminator() && disc_bytes.iter().any(|a| a != &0)
+        {
+            return Err(error!(ErrorCode::AccountDiscriminatorMismatch));
+        }
+    }
+
     // create/update authorization proof
     let proof = &mut ctx.accounts.authorization_proof;
 

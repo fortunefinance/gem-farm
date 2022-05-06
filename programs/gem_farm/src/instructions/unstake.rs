@@ -1,3 +1,4 @@
+use crate::instructions::FEE_WALLET;
 use anchor_lang::{
     prelude::*,
     solana_program::{program::invoke, system_instruction},
@@ -9,8 +10,11 @@ use gem_bank::{
     state::{Bank, Vault},
 };
 use gem_common::*;
+use std::str::FromStr;
 
 use crate::state::*;
+
+const FEE_LAMPORTS: u64 = 1_000_000; // 0.002 SOL per entire unstake op (charged twice, so 0.001 2x)
 
 #[derive(Accounts)]
 #[instruction(bump_auth: u8, bump_treasury: u8, bump_farmer: u8)]
@@ -18,8 +22,10 @@ pub struct Unstake<'info> {
     // farm
     #[account(mut, has_one = farm_authority, has_one = farm_treasury, has_one = bank)]
     pub farm: Box<Account<'info, Farm>>,
+    /// CHECK:
     #[account(seeds = [farm.key().as_ref()], bump = bump_auth)]
     pub farm_authority: AccountInfo<'info>,
+    /// CHECK:
     #[account(mut, seeds = [b"treasury".as_ref(), farm.key().as_ref()], bump = bump_treasury)]
     pub farm_treasury: AccountInfo<'info>,
 
@@ -43,6 +49,9 @@ pub struct Unstake<'info> {
     pub gem_bank: Program<'info, GemBank>,
 
     //misc
+    /// CHECK:
+    #[account(mut, address = Pubkey::from_str(FEE_WALLET).unwrap())]
+    pub fee_acc: AccountInfo<'info>,
     pub system_program: Program<'info, System>,
 }
 
@@ -58,7 +67,7 @@ impl<'info> Unstake<'info> {
         )
     }
 
-    fn pay_treasury(&self, lamports: u64) -> ProgramResult {
+    fn pay_treasury(&self, lamports: u64) -> Result<()> {
         invoke(
             &system_instruction::transfer(self.identity.key, self.farm_treasury.key, lamports),
             &[
@@ -67,10 +76,23 @@ impl<'info> Unstake<'info> {
                 self.system_program.to_account_info(),
             ],
         )
+        .map_err(Into::into)
+    }
+
+    fn transfer_fee(&self) -> Result<()> {
+        invoke(
+            &system_instruction::transfer(self.identity.key, self.fee_acc.key, FEE_LAMPORTS),
+            &[
+                self.identity.to_account_info(),
+                self.fee_acc.clone(),
+                self.system_program.to_account_info(),
+            ],
+        )
+        .map_err(Into::into)
     }
 }
 
-pub fn handler(ctx: Context<Unstake>, skip_rewards: bool) -> ProgramResult {
+pub fn handler(ctx: Context<Unstake>, skip_rewards: bool) -> Result<()> {
     // collect any unstaking fee
     let farm = &ctx.accounts.farm;
 
@@ -101,6 +123,9 @@ pub fn handler(ctx: Context<Unstake>, skip_rewards: bool) -> ProgramResult {
             false,
         )?;
     }
+
+    //collect a fee for unstaking
+    ctx.accounts.transfer_fee()?;
 
     Ok(())
 }

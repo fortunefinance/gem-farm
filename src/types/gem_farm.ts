@@ -21,11 +21,6 @@ export type GemFarm = {
           "isSigner": false
         },
         {
-          "name": "farmTreasury",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "rewardAPot",
           "isMut": true,
           "isSigner": false
@@ -91,14 +86,6 @@ export type GemFarm = {
           "type": "u8"
         },
         {
-          "name": "bumpPotA",
-          "type": "u8"
-        },
-        {
-          "name": "bumpPotB",
-          "type": "u8"
-        },
-        {
           "name": "rewardTypeA",
           "type": {
             "defined": "RewardType"
@@ -115,6 +102,18 @@ export type GemFarm = {
           "type": {
             "defined": "FarmConfig"
           }
+        },
+        {
+          "name": "maxCounts",
+          "type": {
+            "option": {
+              "defined": "MaxCounts"
+            }
+          }
+        },
+        {
+          "name": "farmTreasury",
+          "type": "publicKey"
         }
       ]
     },
@@ -145,6 +144,14 @@ export type GemFarm = {
           "name": "manager",
           "type": {
             "option": "publicKey"
+          }
+        },
+        {
+          "name": "maxCounts",
+          "type": {
+            "option": {
+              "defined": "MaxCounts"
+            }
           }
         }
       ]
@@ -245,10 +252,6 @@ export type GemFarm = {
       "args": [
         {
           "name": "bumpAuth",
-          "type": "u8"
-        },
-        {
-          "name": "bumpWl",
           "type": "u8"
         },
         {
@@ -356,16 +359,7 @@ export type GemFarm = {
           "isSigner": false
         }
       ],
-      "args": [
-        {
-          "name": "bumpFarmer",
-          "type": "u8"
-        },
-        {
-          "name": "bumpVault",
-          "type": "u8"
-        }
-      ]
+      "args": []
     },
     {
       "name": "stake",
@@ -402,6 +396,16 @@ export type GemFarm = {
         },
         {
           "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
           "isMut": false,
           "isSigner": false
         }
@@ -458,6 +462,11 @@ export type GemFarm = {
         {
           "name": "gemBank",
           "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -660,6 +669,11 @@ export type GemFarm = {
           "name": "gemBank",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
         }
       ],
       "args": [
@@ -669,14 +683,6 @@ export type GemFarm = {
         },
         {
           "name": "bumpVaultAuth",
-          "type": "u8"
-        },
-        {
-          "name": "bumpGemBox",
-          "type": "u8"
-        },
-        {
-          "name": "bumpGdr",
           "type": "u8"
         },
         {
@@ -774,12 +780,7 @@ export type GemFarm = {
           "isSigner": false
         }
       ],
-      "args": [
-        {
-          "name": "bump",
-          "type": "u8"
-        }
-      ]
+      "args": []
     },
     {
       "name": "deauthorizeFunder",
@@ -1056,6 +1057,69 @@ export type GemFarm = {
       }
     },
     {
+      "name": "farmer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "farm",
+            "type": "publicKey"
+          },
+          {
+            "name": "identity",
+            "type": "publicKey"
+          },
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "FarmerState"
+            }
+          },
+          {
+            "name": "gemsStaked",
+            "type": "u64"
+          },
+          {
+            "name": "rarityPointsStaked",
+            "type": "u64"
+          },
+          {
+            "name": "minStakingEndsTs",
+            "type": "u64"
+          },
+          {
+            "name": "cooldownEndsTs",
+            "type": "u64"
+          },
+          {
+            "name": "rewardA",
+            "type": {
+              "defined": "FarmerReward"
+            }
+          },
+          {
+            "name": "rewardB",
+            "type": {
+              "defined": "FarmerReward"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "farm",
       "type": {
         "kind": "struct",
@@ -1132,66 +1196,9 @@ export type GemFarm = {
             }
           },
           {
-            "name": "reserved",
+            "name": "maxCounts",
             "type": {
-              "array": [
-                "u8",
-                64
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "farmer",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "farm",
-            "type": "publicKey"
-          },
-          {
-            "name": "identity",
-            "type": "publicKey"
-          },
-          {
-            "name": "vault",
-            "type": "publicKey"
-          },
-          {
-            "name": "state",
-            "type": {
-              "defined": "FarmerState"
-            }
-          },
-          {
-            "name": "gemsStaked",
-            "type": "u64"
-          },
-          {
-            "name": "rarityPointsStaked",
-            "type": "u64"
-          },
-          {
-            "name": "minStakingEndsTs",
-            "type": "u64"
-          },
-          {
-            "name": "cooldownEndsTs",
-            "type": "u64"
-          },
-          {
-            "name": "rewardA",
-            "type": {
-              "defined": "FarmerReward"
-            }
-          },
-          {
-            "name": "rewardB",
-            "type": {
-              "defined": "FarmerReward"
+              "defined": "MaxCounts"
             }
           },
           {
@@ -1200,6 +1207,24 @@ export type GemFarm = {
               "array": [
                 "u8",
                 32
+              ]
+            }
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "reserved3",
+            "type": {
+              "array": [
+                "u8",
+                4
               ]
             }
           }
@@ -1209,116 +1234,29 @@ export type GemFarm = {
   ],
   "types": [
     {
-      "name": "FarmConfig",
+      "name": "RarityConfig",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "minStakingPeriodSec",
-            "type": "u64"
-          },
-          {
-            "name": "cooldownPeriodSec",
-            "type": "u64"
-          },
-          {
-            "name": "unstakingFeeLamp",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "FundsTracker",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "totalFunded",
-            "type": "u64"
-          },
-          {
-            "name": "totalRefunded",
-            "type": "u64"
-          },
-          {
-            "name": "totalAccruedToStakers",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "TimeTracker",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "durationSec",
-            "type": "u64"
-          },
-          {
-            "name": "rewardEndTs",
-            "type": "u64"
-          },
-          {
-            "name": "lockEndTs",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "FarmReward",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "rewardMint",
+            "name": "mint",
             "type": "publicKey"
           },
           {
-            "name": "rewardPot",
-            "type": "publicKey"
-          },
+            "name": "rarityPoints",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Number128",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "rewardType",
-            "type": {
-              "defined": "RewardType"
-            }
-          },
-          {
-            "name": "fixedRate",
-            "type": {
-              "defined": "FixedRateReward"
-            }
-          },
-          {
-            "name": "variableRate",
-            "type": {
-              "defined": "VariableRateReward"
-            }
-          },
-          {
-            "name": "funds",
-            "type": {
-              "defined": "FundsTracker"
-            }
-          },
-          {
-            "name": "times",
-            "type": {
-              "defined": "TimeTracker"
-            }
-          },
-          {
-            "name": "reserved",
-            "type": {
-              "array": [
-                "u8",
-                32
-              ]
-            }
+            "name": "n",
+            "type": "u128"
           }
         ]
       }
@@ -1416,6 +1354,141 @@ export type GemFarm = {
               "array": [
                 "u8",
                 16
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "FarmConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "minStakingPeriodSec",
+            "type": "u64"
+          },
+          {
+            "name": "cooldownPeriodSec",
+            "type": "u64"
+          },
+          {
+            "name": "unstakingFeeLamp",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MaxCounts",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maxFarmers",
+            "type": "u32"
+          },
+          {
+            "name": "maxGems",
+            "type": "u32"
+          },
+          {
+            "name": "maxRarityPoints",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FundsTracker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalFunded",
+            "type": "u64"
+          },
+          {
+            "name": "totalRefunded",
+            "type": "u64"
+          },
+          {
+            "name": "totalAccruedToStakers",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TimeTracker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "durationSec",
+            "type": "u64"
+          },
+          {
+            "name": "rewardEndTs",
+            "type": "u64"
+          },
+          {
+            "name": "lockEndTs",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FarmReward",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardPot",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardType",
+            "type": {
+              "defined": "RewardType"
+            }
+          },
+          {
+            "name": "fixedRate",
+            "type": {
+              "defined": "FixedRateReward"
+            }
+          },
+          {
+            "name": "variableRate",
+            "type": {
+              "defined": "VariableRateReward"
+            }
+          },
+          {
+            "name": "funds",
+            "type": {
+              "defined": "FundsTracker"
+            }
+          },
+          {
+            "name": "times",
+            "type": {
+              "defined": "TimeTracker"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
               ]
             }
           }
@@ -1528,34 +1601,6 @@ export type GemFarm = {
       }
     },
     {
-      "name": "RarityConfig",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "mint",
-            "type": "publicKey"
-          },
-          {
-            "name": "rarityPoints",
-            "type": "u16"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Number128",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "n",
-            "type": "u128"
-          }
-        ]
-      }
-    },
-    {
       "name": "VariableRateConfig",
       "type": {
         "kind": "struct",
@@ -1605,20 +1650,6 @@ export type GemFarm = {
       }
     },
     {
-      "name": "RewardType",
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "Variable"
-          },
-          {
-            "name": "Fixed"
-          }
-        ]
-      }
-    },
-    {
       "name": "FarmerState",
       "type": {
         "kind": "enum",
@@ -1631,6 +1662,20 @@ export type GemFarm = {
           },
           {
             "name": "PendingCooldown"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Variable"
+          },
+          {
+            "name": "Fixed"
           }
         ]
       }
@@ -1681,11 +1726,6 @@ export const IDL: GemFarm = {
           "isSigner": false
         },
         {
-          "name": "farmTreasury",
-          "isMut": false,
-          "isSigner": false
-        },
-        {
           "name": "rewardAPot",
           "isMut": true,
           "isSigner": false
@@ -1751,14 +1791,6 @@ export const IDL: GemFarm = {
           "type": "u8"
         },
         {
-          "name": "bumpPotA",
-          "type": "u8"
-        },
-        {
-          "name": "bumpPotB",
-          "type": "u8"
-        },
-        {
           "name": "rewardTypeA",
           "type": {
             "defined": "RewardType"
@@ -1775,6 +1807,18 @@ export const IDL: GemFarm = {
           "type": {
             "defined": "FarmConfig"
           }
+        },
+        {
+          "name": "maxCounts",
+          "type": {
+            "option": {
+              "defined": "MaxCounts"
+            }
+          }
+        },
+        {
+          "name": "farmTreasury",
+          "type": "publicKey"
         }
       ]
     },
@@ -1805,6 +1849,14 @@ export const IDL: GemFarm = {
           "name": "manager",
           "type": {
             "option": "publicKey"
+          }
+        },
+        {
+          "name": "maxCounts",
+          "type": {
+            "option": {
+              "defined": "MaxCounts"
+            }
           }
         }
       ]
@@ -1905,10 +1957,6 @@ export const IDL: GemFarm = {
       "args": [
         {
           "name": "bumpAuth",
-          "type": "u8"
-        },
-        {
-          "name": "bumpWl",
           "type": "u8"
         },
         {
@@ -2016,16 +2064,7 @@ export const IDL: GemFarm = {
           "isSigner": false
         }
       ],
-      "args": [
-        {
-          "name": "bumpFarmer",
-          "type": "u8"
-        },
-        {
-          "name": "bumpVault",
-          "type": "u8"
-        }
-      ]
+      "args": []
     },
     {
       "name": "stake",
@@ -2062,6 +2101,16 @@ export const IDL: GemFarm = {
         },
         {
           "name": "gemBank",
+          "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
+        },
+        {
+          "name": "systemProgram",
           "isMut": false,
           "isSigner": false
         }
@@ -2118,6 +2167,11 @@ export const IDL: GemFarm = {
         {
           "name": "gemBank",
           "isMut": false,
+          "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
           "isSigner": false
         },
         {
@@ -2320,6 +2374,11 @@ export const IDL: GemFarm = {
           "name": "gemBank",
           "isMut": false,
           "isSigner": false
+        },
+        {
+          "name": "feeAcc",
+          "isMut": true,
+          "isSigner": false
         }
       ],
       "args": [
@@ -2329,14 +2388,6 @@ export const IDL: GemFarm = {
         },
         {
           "name": "bumpVaultAuth",
-          "type": "u8"
-        },
-        {
-          "name": "bumpGemBox",
-          "type": "u8"
-        },
-        {
-          "name": "bumpGdr",
           "type": "u8"
         },
         {
@@ -2434,12 +2485,7 @@ export const IDL: GemFarm = {
           "isSigner": false
         }
       ],
-      "args": [
-        {
-          "name": "bump",
-          "type": "u8"
-        }
-      ]
+      "args": []
     },
     {
       "name": "deauthorizeFunder",
@@ -2716,6 +2762,69 @@ export const IDL: GemFarm = {
       }
     },
     {
+      "name": "farmer",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "farm",
+            "type": "publicKey"
+          },
+          {
+            "name": "identity",
+            "type": "publicKey"
+          },
+          {
+            "name": "vault",
+            "type": "publicKey"
+          },
+          {
+            "name": "state",
+            "type": {
+              "defined": "FarmerState"
+            }
+          },
+          {
+            "name": "gemsStaked",
+            "type": "u64"
+          },
+          {
+            "name": "rarityPointsStaked",
+            "type": "u64"
+          },
+          {
+            "name": "minStakingEndsTs",
+            "type": "u64"
+          },
+          {
+            "name": "cooldownEndsTs",
+            "type": "u64"
+          },
+          {
+            "name": "rewardA",
+            "type": {
+              "defined": "FarmerReward"
+            }
+          },
+          {
+            "name": "rewardB",
+            "type": {
+              "defined": "FarmerReward"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
       "name": "farm",
       "type": {
         "kind": "struct",
@@ -2792,66 +2901,9 @@ export const IDL: GemFarm = {
             }
           },
           {
-            "name": "reserved",
+            "name": "maxCounts",
             "type": {
-              "array": [
-                "u8",
-                64
-              ]
-            }
-          }
-        ]
-      }
-    },
-    {
-      "name": "farmer",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "farm",
-            "type": "publicKey"
-          },
-          {
-            "name": "identity",
-            "type": "publicKey"
-          },
-          {
-            "name": "vault",
-            "type": "publicKey"
-          },
-          {
-            "name": "state",
-            "type": {
-              "defined": "FarmerState"
-            }
-          },
-          {
-            "name": "gemsStaked",
-            "type": "u64"
-          },
-          {
-            "name": "rarityPointsStaked",
-            "type": "u64"
-          },
-          {
-            "name": "minStakingEndsTs",
-            "type": "u64"
-          },
-          {
-            "name": "cooldownEndsTs",
-            "type": "u64"
-          },
-          {
-            "name": "rewardA",
-            "type": {
-              "defined": "FarmerReward"
-            }
-          },
-          {
-            "name": "rewardB",
-            "type": {
-              "defined": "FarmerReward"
+              "defined": "MaxCounts"
             }
           },
           {
@@ -2860,6 +2912,24 @@ export const IDL: GemFarm = {
               "array": [
                 "u8",
                 32
+              ]
+            }
+          },
+          {
+            "name": "reserved2",
+            "type": {
+              "array": [
+                "u8",
+                16
+              ]
+            }
+          },
+          {
+            "name": "reserved3",
+            "type": {
+              "array": [
+                "u8",
+                4
               ]
             }
           }
@@ -2869,116 +2939,29 @@ export const IDL: GemFarm = {
   ],
   "types": [
     {
-      "name": "FarmConfig",
+      "name": "RarityConfig",
       "type": {
         "kind": "struct",
         "fields": [
           {
-            "name": "minStakingPeriodSec",
-            "type": "u64"
-          },
-          {
-            "name": "cooldownPeriodSec",
-            "type": "u64"
-          },
-          {
-            "name": "unstakingFeeLamp",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "FundsTracker",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "totalFunded",
-            "type": "u64"
-          },
-          {
-            "name": "totalRefunded",
-            "type": "u64"
-          },
-          {
-            "name": "totalAccruedToStakers",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "TimeTracker",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "durationSec",
-            "type": "u64"
-          },
-          {
-            "name": "rewardEndTs",
-            "type": "u64"
-          },
-          {
-            "name": "lockEndTs",
-            "type": "u64"
-          }
-        ]
-      }
-    },
-    {
-      "name": "FarmReward",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "rewardMint",
+            "name": "mint",
             "type": "publicKey"
           },
           {
-            "name": "rewardPot",
-            "type": "publicKey"
-          },
+            "name": "rarityPoints",
+            "type": "u16"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Number128",
+      "type": {
+        "kind": "struct",
+        "fields": [
           {
-            "name": "rewardType",
-            "type": {
-              "defined": "RewardType"
-            }
-          },
-          {
-            "name": "fixedRate",
-            "type": {
-              "defined": "FixedRateReward"
-            }
-          },
-          {
-            "name": "variableRate",
-            "type": {
-              "defined": "VariableRateReward"
-            }
-          },
-          {
-            "name": "funds",
-            "type": {
-              "defined": "FundsTracker"
-            }
-          },
-          {
-            "name": "times",
-            "type": {
-              "defined": "TimeTracker"
-            }
-          },
-          {
-            "name": "reserved",
-            "type": {
-              "array": [
-                "u8",
-                32
-              ]
-            }
+            "name": "n",
+            "type": "u128"
           }
         ]
       }
@@ -3076,6 +3059,141 @@ export const IDL: GemFarm = {
               "array": [
                 "u8",
                 16
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "FarmConfig",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "minStakingPeriodSec",
+            "type": "u64"
+          },
+          {
+            "name": "cooldownPeriodSec",
+            "type": "u64"
+          },
+          {
+            "name": "unstakingFeeLamp",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "MaxCounts",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "maxFarmers",
+            "type": "u32"
+          },
+          {
+            "name": "maxGems",
+            "type": "u32"
+          },
+          {
+            "name": "maxRarityPoints",
+            "type": "u32"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FundsTracker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "totalFunded",
+            "type": "u64"
+          },
+          {
+            "name": "totalRefunded",
+            "type": "u64"
+          },
+          {
+            "name": "totalAccruedToStakers",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "TimeTracker",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "durationSec",
+            "type": "u64"
+          },
+          {
+            "name": "rewardEndTs",
+            "type": "u64"
+          },
+          {
+            "name": "lockEndTs",
+            "type": "u64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "FarmReward",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "rewardMint",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardPot",
+            "type": "publicKey"
+          },
+          {
+            "name": "rewardType",
+            "type": {
+              "defined": "RewardType"
+            }
+          },
+          {
+            "name": "fixedRate",
+            "type": {
+              "defined": "FixedRateReward"
+            }
+          },
+          {
+            "name": "variableRate",
+            "type": {
+              "defined": "VariableRateReward"
+            }
+          },
+          {
+            "name": "funds",
+            "type": {
+              "defined": "FundsTracker"
+            }
+          },
+          {
+            "name": "times",
+            "type": {
+              "defined": "TimeTracker"
+            }
+          },
+          {
+            "name": "reserved",
+            "type": {
+              "array": [
+                "u8",
+                32
               ]
             }
           }
@@ -3188,34 +3306,6 @@ export const IDL: GemFarm = {
       }
     },
     {
-      "name": "RarityConfig",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "mint",
-            "type": "publicKey"
-          },
-          {
-            "name": "rarityPoints",
-            "type": "u16"
-          }
-        ]
-      }
-    },
-    {
-      "name": "Number128",
-      "type": {
-        "kind": "struct",
-        "fields": [
-          {
-            "name": "n",
-            "type": "u128"
-          }
-        ]
-      }
-    },
-    {
       "name": "VariableRateConfig",
       "type": {
         "kind": "struct",
@@ -3265,20 +3355,6 @@ export const IDL: GemFarm = {
       }
     },
     {
-      "name": "RewardType",
-      "type": {
-        "kind": "enum",
-        "variants": [
-          {
-            "name": "Variable"
-          },
-          {
-            "name": "Fixed"
-          }
-        ]
-      }
-    },
-    {
       "name": "FarmerState",
       "type": {
         "kind": "enum",
@@ -3291,6 +3367,20 @@ export const IDL: GemFarm = {
           },
           {
             "name": "PendingCooldown"
+          }
+        ]
+      }
+    },
+    {
+      "name": "RewardType",
+      "type": {
+        "kind": "enum",
+        "variants": [
+          {
+            "name": "Variable"
+          },
+          {
+            "name": "Fixed"
           }
         ]
       }
