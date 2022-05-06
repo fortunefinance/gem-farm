@@ -30,7 +30,9 @@ input[type='radio']:checked + span {
   @apply text-black;
 }
 .bgimg {
-  background-image: url(https://lotto.fortune.finance/img/hero-bricks.80b4df40.png);
-  background-size: cover
+  background-color: black;
+  background-image: url('~@/assets/hero-bricks2.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
 }
 </style>
